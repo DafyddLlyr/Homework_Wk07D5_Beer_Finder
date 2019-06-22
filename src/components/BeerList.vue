@@ -19,7 +19,6 @@ export default {
   name: 'beer-list',
   methods: {
     handleClick: function(beer) {
-      console.log(beer);
       eventBus.$emit('selected-beer', beer)
     }
   },

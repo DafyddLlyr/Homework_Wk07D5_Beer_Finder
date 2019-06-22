@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="beer-details">
+  <div id="beer-details" v-if="beer">
     <p>Beer Details</p>
     <p> {{ beer.fields.name }}</p>
     <p> {{ beer.geometry.coordinates }}</p>
