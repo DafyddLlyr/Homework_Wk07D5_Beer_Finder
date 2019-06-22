@@ -20,6 +20,7 @@ export default {
       if (this.markers !== null) { this.markers.clearLayers() }
       let markerArray = this.filteredBeers.map(beer => {
         return L.marker(beer.fields.coordinates)
+          .bindPopup(`<a href="#">${beer.fields.name}</a>`).openPopup();
       })
       this.markers = L.featureGroup(markerArray)
       this.beerMap.addLayer(this.markers);
