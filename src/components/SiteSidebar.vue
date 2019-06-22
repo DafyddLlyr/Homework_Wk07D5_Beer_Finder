@@ -1,18 +1,39 @@
 <template lang="html">
   <div id="sidebar">
     <h2>Sidebar</h2>
-    <country-select :allCountries="allCountries"/>
+
+    <div class="select-container">
+      <h3>Country</h3>
+      <field-select :allFields="allCountries" field="country"/>
+    </div>
+
+    <div class="select-container">
+      <h3>Category</h3>
+      <field-select :allFields="allCategories" field="cat_name"/>
+    </div>
+
+    <div class="select-container">
+      <h3>Style</h3>
+      <field-select :allFields="allStyles" field="style_name"/>
+    </div>
+
+    <div class="select-container">
+      <h3>Brewery</h3>
+      <field-select :allFields="allBreweries" field="name_breweries"/>
+    </div>
+
+
   </div>
 </template>
 
 <script>
-import CountrySelect from './CountrySelect.vue'
+import FieldSelect from './FieldSelect.vue'
 
 export default {
   name: 'sidebar',
-  props: ['allCountries'],
+  props: ['allCountries', 'allStyles', 'allCategories', 'allBreweries'],
   components: {
-    'country-select': CountrySelect
+    'field-select': FieldSelect
   }
 }
 </script>
@@ -24,6 +45,10 @@ export default {
   flex-direction: column;
   background-color: grey;
   grid-area: sidebar;
+}
+
+.select-container {
+  margin: 1vw 0;
 }
 
 </style>

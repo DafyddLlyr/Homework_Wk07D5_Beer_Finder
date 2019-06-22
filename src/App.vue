@@ -1,12 +1,17 @@
 <template>
   <div id="app">
     <site-header/>
-    <site-sidebar :allCountries="allCountries" />
-    <site-main :allBeers="allBeers"/>
+    <site-sidebar
+    :allCountries="findByField('country')"
+    :allCategories="findByField('cat_name')"
+    :allBreweries="findByField('name_breweries')"
+    :allStyles="findByField('style_name')" />
+    <site-main :filteredBeers="filteredBeers"/>
   </div>
 </template>
 
 <script>
+import { eventBus } from './main.js'
 import SiteHeader from './components/SiteHeader.vue'
 import SiteSidebar from './components/SiteSidebar.vue'
 import SiteMain from './components/SiteMain.vue'
@@ -15,16 +20,42 @@ export default {
   name: 'app',
   data() {
     return {
-      allBeers: null
+      allBeers: [],
+      filterObject: {
+        country: '',
+        cat_name: '',
+        style_name: '',
+        breweries_name: ''
+      }
     }
   },
   computed: {
-    allCountries: function() {
-      const allCountries = this.allBeers.map(beer => beer.fields.country)
-      const uniqueCountries = [...new Set(allCountries)]
-      return uniqueCountries.sort()
+    filteredBeers: function() {
+      return this.allBeers
+      .filter(beer => {
+        return (beer.fields.country === this.filterObject.country || this.filterObject.country === '')
+      })
+      .filter(beer => {
+        return (beer.fields.cat_name === this.filterObject.cat_name || this.filterObject.cat_name === '')
+      })
+      .filter(beer => {
+        return (beer.fields.style_name === this.filterObject.style_name ||
+        this.filterObject.style_name === '')
+      })
+      .filter(beer => {
+        return (beer.fields.breweries_name === this.filterObject.breweries_name || this.filterObject.breweries_name === "")
+      })
     }
   },
+
+
+
+  // for (let key of Object.keys(this.filterObject)) {
+  //   if (beer.fields[key] !== this.filterObject[key]) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
   components: {
     'site-header': SiteHeader,
     'site-main': SiteMain,
@@ -32,6 +63,9 @@ export default {
   },
   mounted() {
     this.fetchBeerDetails()
+    eventBus.$on('selected-field', fieldResult => {
+      this.filterObject[fieldResult[0]] = fieldResult[1]
+    })
   },
   methods: {
     fetchBeerDetails: function() {
@@ -41,6 +75,12 @@ export default {
         console.log(response.records)
         this.allBeers = response.records
       })
+    },
+    findByField: function(field) {
+      const allFields = this.filteredBeers.map(beer => beer.fields[field])
+      const uniqueFields = [...new Set(allFields)]
+      const result = uniqueFields.filter(result => result !== undefined).sort()
+      return result;
     }
   }
 }
@@ -48,22 +88,22 @@ export default {
 
 <style>
 
-* {
-  margin: 0;
-  padding: 0;
-}
+  * {
+    margin: 0;
+    padding: 0;
+  }
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: black;
-  display: grid;
-  grid-template-columns: 20vw auto;
-  grid-template-rows: 10vh 90vh;
-  grid-template-areas:
-  "header header"
-  "sidebar main"
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: black;
+    display: grid;
+    grid-template-columns: 30vw auto;
+    grid-template-rows: 10vh 90vh;
+    grid-template-areas:
+    "header header"
+    "sidebar main"
+  }
 </style>
