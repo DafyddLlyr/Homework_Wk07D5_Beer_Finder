@@ -19,8 +19,34 @@ export default {
     filteredBeers: function() {
       if (this.markers !== null) { this.markers.clearLayers() }
       let markerArray = this.filteredBeers.map(beer => {
+        let beerDetails =
+        `<div class='beerDetails'>
+        <h3>${beer.fields.name}</h3>
+        <table>
+          <tr>
+            <th>Style: </th>
+            <td>${beer.fields.style_name}</td>
+          </tr>
+          <tr>
+            <th>Category: </th>
+            <td>${beer.fields.cat_name}</td>
+          </tr>
+          <tr>
+            <th>ABV: </th>
+            <td>${beer.fields.abv.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <th>Brewery: </th>
+            <td>${beer.fields.name_breweries}</td>
+          </tr>
+          <tr>
+            <th>Location: </th>
+            <td>${beer.fields.state}, ${beer.fields.country}</td>
+          </tr>
+        </table>
+        `
         return L.marker(beer.fields.coordinates)
-          .bindPopup(`<a href="#">${beer.fields.name}</a>`).openPopup();
+          .bindPopup(`${beerDetails}`).openPopup();
       })
       this.markers = L.featureGroup(markerArray)
       this.beerMap.addLayer(this.markers);
