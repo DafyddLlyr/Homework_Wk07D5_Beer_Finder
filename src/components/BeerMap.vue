@@ -21,11 +21,9 @@ export default {
       markers: null
     }
   },
-  methods: {
-    removeMarkers: function() {
-      this.markers.clearLayers()
-    },
-    createMarkers: function() {
+  watch: {
+    filteredBeers: function() {
+      if (this.markers !== null) { this.markers.clearLayers() }
       let markerArray = this.filteredBeers.map(beer => {
         return L.marker(beer.fields.coordinates)
       })
@@ -35,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    this.beerMap = L.map('beer-map').setView([51.505, -0.09], 5);
+    this.beerMap = L.map('beer-map').setView([51.505, -0.09], 5 );
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
