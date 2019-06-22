@@ -25,7 +25,7 @@ export default {
         country: '',
         cat_name: '',
         style_name: '',
-        breweries_name: ''
+        name_breweries: ''
       }
     }
   },
@@ -40,70 +40,61 @@ export default {
       })
       .filter(beer => {
         return (beer.fields.style_name === this.filterObject.style_name ||
-        this.filterObject.style_name === '')
-      })
+          this.filterObject.style_name === '')
+        })
       .filter(beer => {
-        return (beer.fields.breweries_name === this.filterObject.breweries_name || this.filterObject.breweries_name === "")
-      })
-    }
-  },
-
-
-
-  // for (let key of Object.keys(this.filterObject)) {
-  //   if (beer.fields[key] !== this.filterObject[key]) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-  components: {
-    'site-header': SiteHeader,
-    'site-main': SiteMain,
-    'site-sidebar': SiteSidebar
-  },
-  mounted() {
-    this.fetchBeerDetails()
-    eventBus.$on('selected-field', fieldResult => {
-      this.filterObject[fieldResult[0]] = fieldResult[1]
-    })
-  },
-  methods: {
-    fetchBeerDetails: function() {
-      fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=100&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
-      .then(response => response.json())
-      .then(response => {
-        console.log(response.records)
-        this.allBeers = response.records
+        return (beer.fields.name_breweries === this.filterObject.name_breweries || this.filterObject.name_breweries === '')
+        })
+      }
+    },
+    components: {
+      'site-header': SiteHeader,
+      'site-main': SiteMain,
+      'site-sidebar': SiteSidebar
+    },
+    mounted() {
+      this.fetchBeerDetails()
+      eventBus.$on('selected-field', fieldResult => {
+        this.filterObject[fieldResult[0]] = fieldResult[1]
       })
     },
-    findByField: function(field) {
-      const allFields = this.filteredBeers.map(beer => beer.fields[field])
-      const uniqueFields = [...new Set(allFields)]
-      const result = uniqueFields.filter(result => result !== undefined).sort()
-      return result;
+    methods: {
+      fetchBeerDetails: function() {
+        fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=100&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
+        .then(response => response.json())
+        .then(response => {
+          console.log(response.records)
+          this.allBeers = response.records
+        })
+      },
+      findByField: function(field) {
+        const allFields = this.filteredBeers.map(beer => beer.fields[field])
+        const uniqueFields = [...new Set(allFields)]
+        const result = uniqueFields.filter(result => result !== undefined).sort()
+        return result;
+      }
     }
   }
-}
-</script>
+  </script>
 
-<style>
+  <style>
 
-  * {
-    margin: 0;
-    padding: 0;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: black;
-    display: grid;
-    grid-template-columns: 30vw auto;
-    grid-template-rows: 10vh 90vh;
-    grid-template-areas:
-    "header header"
-    "sidebar main"
-  }
-</style>
+    #app {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: black;
+      display: grid;
+      grid-template-columns: 30vw auto;
+      grid-template-rows: 10vh 90vh;
+      grid-template-areas:
+      "header header"
+      "sidebar main"
+    }
+  </style>

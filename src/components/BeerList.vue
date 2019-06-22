@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="beer-list">
-    <p>BeerList</p>
+    <h3>BeerList</h3>
     <ul>
       <li v-for="(beer, index) in filteredBeers" :key="index">{{ beer.fields.name }}</li>
     </ul>

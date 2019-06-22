@@ -4,22 +4,34 @@
 
     <div class="select-container">
       <h3>Country</h3>
-      <field-select :allFields="allCountries" field="country"/>
+      <field-select
+        :allFields="allCountries"
+        field="country"
+        displayField="countries"/>
     </div>
 
-    <div class="select-container">
+    <div class="select-container" v-if='allCategories.length > 0'>
       <h3>Category</h3>
-      <field-select :allFields="allCategories" field="cat_name"/>
+      <field-select
+        :allFields="allCategories"
+        field="cat_name"
+        displayField="categories"/>
     </div>
 
-    <div class="select-container">
+    <div class="select-container" v-if='allStyles.length > 0'>
       <h3>Style</h3>
-      <field-select :allFields="allStyles" field="style_name"/>
+      <field-select
+        :allFields="allStyles"
+        field="style_name"
+        displayField="styles"/>
     </div>
 
     <div class="select-container">
       <h3>Brewery</h3>
-      <field-select :allFields="allBreweries" field="name_breweries"/>
+      <field-select
+        :allFields="allBreweries"
+        field="name_breweries"
+        displayField="breweries"/>
     </div>
 
 
