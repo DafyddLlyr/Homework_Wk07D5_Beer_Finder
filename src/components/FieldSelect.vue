@@ -26,4 +26,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+#field-select {
+  font-size: 1rem;
+  font-family: inherit;
+  width: 20vw;
+}
+
 </style>

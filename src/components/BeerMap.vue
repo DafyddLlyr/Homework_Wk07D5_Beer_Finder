@@ -1,12 +1,6 @@
 <template lang="html">
-  <div class="container">
-    <p v-on:click="createMarkers">Add</p>
-    <p v-on:click="removeMarkers">Remove</p>
-    <div id="beer-map">
-
-    </div>
+  <div id="beer-map">
   </div>
-
 </template>
 
 <script>
@@ -33,7 +27,7 @@ export default {
     }
   },
   mounted() {
-    this.beerMap = L.map('beer-map').setView([51.505, -0.09], 5 );
+    this.beerMap = L.map('beer-map').setView([55.8634087,-4.2567716], 17);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
