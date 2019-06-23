@@ -61,16 +61,20 @@ export default {
       return this.beerCountries.length;
     },
     styleCountryFrequency: function() {
-      this.facets.unshift(['Country', 'Count'])
-      return this.facets;
+      if (this.facets) {
+        this.facets.unshift(['Country', 'Count'])
+        return this.facets;
+      }
     },
     beerABVs: function() {
       let allABVs = this.styleBeers.map(beer => beer.abv);
       return allABVs.filter(abv => abv !== 0)
     },
     averageABV: function() {
-      let average = this.beerABVs.reduce((a, b) => a + b) / this.beerABVs.length
-      return average.toFixed(2)
+      if (this.beerABVs.length) {
+        let average = this.beerABVs.reduce((a, b) => a + b) / this.beerABVs.length
+        return average.toFixed(2)
+      }
     }
   },
   mounted() {
