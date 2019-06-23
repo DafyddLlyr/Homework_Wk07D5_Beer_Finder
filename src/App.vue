@@ -2,10 +2,11 @@
   <div id="app">
     <site-header/>
     <site-sidebar
-    :allCountries="findByField('country')"
-    :allCategories="findByField('cat_name')"
-    :allBreweries="findByField('name_breweries')"
-    :allStyles="findByField('style_name')" />
+      :numOfBeers="filteredBeers.length"
+      :allCountries="findByField('country')"
+      :allCategories="findByField('cat_name')"
+      :allBreweries="findByField('name_breweries')"
+      :allStyles="findByField('style_name')" />
     <site-main :filteredBeers="filteredBeers"/>
   </div>
 </template>
@@ -42,8 +43,8 @@ export default {
           return (beer.fields.style_name === this.filterObject.style_name ||
             this.filterObject.style_name === '')
           })
-          .filter(beer => {
-            return (beer.fields.name_breweries === this.filterObject.name_breweries || this.filterObject.name_breweries === '')
+        .filter(beer => {
+          return (beer.fields.name_breweries === this.filterObject.name_breweries || this.filterObject.name_breweries === '')
           })
       }
   },
@@ -64,7 +65,6 @@ export default {
       .then(response => response.json())
       .then(response => this.allBeers = response.records
         .filter(beer => beer.fields.hasOwnProperty('coordinates')
-        && beer.fields.abv !== 0
         && beer.fields.style_name !== undefined
         && beer.fields.cat_name !== undefined
         && beer.fields.hasOwnProperty('name_breweries')))

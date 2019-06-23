@@ -10,13 +10,13 @@
         <th>Category: </th>
         <td>{{ beer.fields.cat_name }}</td>
       </tr>
-      <tr>
+      <tr v-if="beer.fields.abv !== 0">
         <th>ABV: </th>
         <td>{{ beer.fields.abv.toFixed(2) }}%</td>
       </tr>
       <tr>
         <th>Brewery: </th>
-        <td>{{ beer.fields.name_breweries.trim() }}</td>
+        <td v-on:click="brewerySelect">{{ beer.fields.name_breweries.trim() }}</td>
       </tr>
       <tr>
         <th>Location: </th>
@@ -32,7 +32,12 @@ import { eventBus } from '../main.js'
 
 export default {
   name: 'beer-details',
-  props: ['beer']
+  props: ['beer'],
+  methods: {
+    brewerySelect: function() {
+      eventBus.$emit('selected-brewery', this.beer.fields.name_breweries)
+    }
+  }
 }
 </script>
 
@@ -48,14 +53,16 @@ th {
 
 table {
   cursor: default;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 .beer-header {
   cursor: default;
   text-align: center;
   margin: 1vw;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
+  font-family: 'Lobster', cursive;
+  color: #F06543;
 }
-
 
 </style>
