@@ -1,7 +1,7 @@
 <template>
-  <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center">
+  <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" ref="beerMap">
     <l-tile-layer :url="url"></l-tile-layer>
-    <l-layer-group
+    <l-feature-group
       layerType="overlay"
       name="BeerMarkers">
       <l-marker
@@ -11,7 +11,7 @@
       >
         <l-popup><beer-details :beer="beer"/></l-popup>
       </l-marker>
-  </l-layer-group>
+  </l-feature-group>
   </l-map>
 </template>
 
@@ -28,40 +28,22 @@ export default {
       beerMap: null,
       markers: null,
       url: `https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=${keys['leaflet']}`,
-      zoom: 5,
-      center: [47.413220, -1.319482],
-      markerLatLng: [47.313220, -1.319482]
-    }
-  },
-  computed: {
-    bounds: function() {
-
+      zoom: 13,
+      center: [55.8653523,-4.2598484]
     }
   },
   components: {
     'beer-details': BeerDetails
+  },
+  computed: {
+    filteredBeersBounds: function() {
+      return this.filteredBeers.map(beer => beer.fields.coordinates)
+    }
+  },
+  watch: {
+    filteredBeers: function() {
+      this.$refs.beerMap.mapObject.flyToBounds(this.filteredBeersBounds);
+    }
   }
 }
 </script>
-
-<!-- <template lang="html">
-
-
-  watch: {
-    filteredBeers: function() {
-      if (this.markers !== null) { this.markers.clearLayers() }
-      let markerArray = this.filteredBeers.map(beer => {
-
-        return L.marker(beer.fields.coordinates)
-          .bindPopup(beerDetails).openPopup();
-      })
-      this.markers = L.featureGroup(markerArray)
-      this.beerMap.addLayer(this.markers);
-      this.beerMap.flyToBounds(this.markers.getBounds());
-    }
-  }
-
-<style lang="css">
-
-
-</style> -->
