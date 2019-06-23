@@ -35,7 +35,7 @@ export default {
   props: ['beer'],
   methods: {
     brewerySelect: function() {
-      eventBus.$emit('selected-brewery', this.beer.fields.name_breweries)
+      eventBus.$emit('selected-brewery', this.beer)
     }
   }
 }

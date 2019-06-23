@@ -3,7 +3,8 @@
     <beer-map :filteredBeers="filteredBeers"/>
     <map-overlay
       v-if="selectedBrewery"
-      :selectedBrewery="selectedBrewery" />
+      :selectedBeer="selectedBeer"
+      :selectedBrewery="selectedBrewery"/>
     </div>
   </div>
 </template>
@@ -20,7 +21,8 @@ export default {
   props: ['filteredBeers'],
   data() {
     return {
-      selectedBrewery: null
+      selectedBrewery: null,
+      selectedBeer: null
     }
   },
   components: {
@@ -30,7 +32,10 @@ export default {
     'map-overlay': MapOverlay,
   },
   mounted() {
-    eventBus.$on('selected-brewery', brewery => { this.selectedBrewery = brewery })
+    eventBus.$on('selected-brewery', beer => {
+      this.selectedBrewery = beer.fields.name_breweries;
+      this.selectedBeer = beer;
+    })
     eventBus.$on('overlay-close', () => this.selectedBrewery = null)
   }
 }

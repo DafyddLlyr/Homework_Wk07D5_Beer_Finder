@@ -2,7 +2,7 @@
   <div id="map-overlay">
     <div class="details-popup">
       <i class="fas fa-times" v-on:click="closeOverlay"></i>
-      <brewery-details v-if="selectedBrewery" />
+      <brewery-details v-if="selectedBrewery" :beer="selectedBeer.fields"/>
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@ import { eventBus } from '../main.js'
 
 export default {
   name: 'map-overlay',
-  props: ['selectedBrewery'],
+  props: ['selectedBrewery', 'selectedBeer'],
   components: {
     'brewery-details': BreweryDetails
   },
@@ -55,6 +55,7 @@ export default {
   color: #c3c3c3;
   font-size: 16px;
   cursor: pointer;
+  z-index: 9000;
 }
 
 .fa-times:hover {
