@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <h1>World Beer Finder</h1>
+    <h1>International Beer Tracker</h1>
   </div>
 </template>
 
@@ -12,12 +12,14 @@ export default {
 <style lang="css" scoped>
 
 .container {
-  background-color: blue;
+  font-family: 'Lobster', cursive;
+  background-color: #313638 ;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   grid-area: header;
+  font-size: 1.8rem;
 }
 
 </style>

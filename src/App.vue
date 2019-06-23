@@ -16,7 +16,7 @@ import SiteHeader from './components/SiteHeader.vue'
 import SiteSidebar from './components/SiteSidebar.vue'
 import SiteMain from './components/SiteMain.vue'
 
-export default {
+  export default {
   name: 'app',
   data() {
     return {
@@ -60,42 +60,47 @@ export default {
     },
     methods: {
       fetchBeerDetails: function() {
-        fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=500&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
+        fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=100&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
         .then(response => response.json())
         .then(response => this.allBeers = response.records
-          .filter(beer => beer.fields.hasOwnProperty('coordinates'))
-          .filter(beer => beer.fields.abv !== 0)
-          .filter(beer => beer.fields.style == undefined)
-          .filter(beer => beer.fields.category == undefined))
-    },
-    findByField: function(field) {
-      const allFields = this.filteredBeers.map(beer => beer.fields[field])
-      const uniqueFields = [...new Set(allFields)]
-      const result = uniqueFields.filter(result => result !== undefined).sort()
-      return result;
+          .filter(beer => beer.fields.hasOwnProperty('coordinates')
+          && beer.fields.abv !== 0
+          && beer.fields.style_name !== undefined
+          && beer.fields.cat_name !== undefined
+          && beer.fields.hasOwnProperty('name_breweries')))
+        },
+        findByField: function(field) {
+          const allFields = this.filteredBeers.map(beer => beer.fields[field])
+          const uniqueFields = [...new Set(allFields)]
+          const result = uniqueFields.filter(result => result !== undefined).sort()
+          return result;
+        }
+      }
     }
-  }
-}
-</script>
+    </script>
 
-<style>
+    <style>
 
-  * {
-    margin: 0;
-    padding: 0;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: black;
-    display: grid;
-    grid-template-columns: 30vw auto;
-    grid-template-rows: 10vh 90vh;
-    grid-template-areas:
-    "header header"
-    "sidebar main"
-  }
-</style>
+    body {
+      background-color: #E0DFD5
+    }
+
+    #app {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: black;
+      display: grid;
+      grid-template-columns: 30vw auto;
+      grid-template-rows: 10vh 90vh;
+      grid-template-areas:
+      "header header"
+      "sidebar main"
+    }
+    </style>

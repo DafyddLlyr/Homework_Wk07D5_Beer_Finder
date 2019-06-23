@@ -20,8 +20,8 @@ export default {
       if (this.markers !== null) { this.markers.clearLayers() }
       let markerArray = this.filteredBeers.map(beer => {
         let beerDetails =
-        `<div class='beerDetails'>
-        <h3>${beer.fields.name}</h3>
+        `<div class='beer-details'>
+        <h3 class="beer-header">${beer.fields.name}</h3>
         <table>
           <tr>
             <th>Style: </th>
@@ -33,11 +33,11 @@ export default {
           </tr>
           <tr>
             <th>ABV: </th>
-            <td>${beer.fields.abv.toFixed(2)}</td>
+            <td>${beer.fields.abv.toFixed(2)}%</td>
           </tr>
           <tr>
             <th>Brewery: </th>
-            <td>${beer.fields.name_breweries}</td>
+            <td>${beer.fields.name_breweries.trim()}</td>
           </tr>
           <tr>
             <th>Location: </th>
@@ -46,7 +46,7 @@ export default {
         </table>
         `
         return L.marker(beer.fields.coordinates)
-          .bindPopup(`${beerDetails}`).openPopup();
+          .bindPopup(beerDetails).openPopup();
       })
       this.markers = L.featureGroup(markerArray)
       this.beerMap.addLayer(this.markers);
@@ -54,7 +54,7 @@ export default {
     }
   },
   mounted() {
-    this.beerMap = L.map('beer-map').setView([55.8634087,-4.2567716], 17);
+    this.beerMap = L.map('beer-map').setView([55.8634087,-4.2567716], 4);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
@@ -65,11 +65,30 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 
 #beer-map, .container {
   width: 100%;
   height: 100%;
+}
+
+.beer-details .leaflet-popup-content-wrapper {
+  width: auto;
+}
+
+th {
+  padding-right: 1vw;
+}
+
+table {
+  cursor: default;
+}
+
+.beer-header {
+  cursor: default;
+  text-align: center;
+  margin: 1vw;
+  font-size: 1.1rem;
 }
 
 </style>

@@ -1,7 +1,6 @@
 <template lang="html">
   <div id="sidebar">
-    <h2>Sidebar</h2>
-
+  <h2>Find the perfect pint...</h2>
     <div class="select-container">
       <h3>Country</h3>
       <field-select
@@ -34,7 +33,6 @@
         displayField="breweries"/>
     </div>
 
-
   </div>
 </template>
 
@@ -55,12 +53,19 @@ export default {
 #sidebar {
   display: flex;
   flex-direction: column;
-  background-color: grey;
+  background-color: #E0DFD5;
   grid-area: sidebar;
 }
 
 .select-container {
   margin: 1vw 0;
+}
+
+h2 {
+  font-family: 'Lobster', cursive;
+  margin: 2vw 0vw;
+  font-size: 2rem;
+  color: #F06543;
 }
 
 </style>
