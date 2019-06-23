@@ -11,8 +11,11 @@ export default {
 
 <style lang="css" scoped>
 
+h1 {
+  font-family: 'Lobster', cursive !important;
+}
+
 .container {
-  font-family: 'Lobster', cursive;
   background-color: #313638 ;
   color: white;
   display: flex;

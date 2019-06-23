@@ -3,19 +3,22 @@
     <div class="details-popup">
       <i class="fas fa-times" v-on:click="closeOverlay"></i>
       <brewery-details v-if="selectedBrewery" :beer="selectedBeer.fields"/>
+      <country-details v-if="selectedCountry" :beer="selectedBeer.fields"/>
     </div>
   </div>
 </template>
 
 <script>
 import BreweryDetails from './BreweryDetails.vue'
+import CountryDetails from './CountryDetails.vue'
 import { eventBus } from '../main.js'
 
 export default {
   name: 'map-overlay',
-  props: ['selectedBrewery', 'selectedBeer'],
+  props: ['selectedBrewery', 'selectedBeer', 'selectedCountry'],
   components: {
-    'brewery-details': BreweryDetails
+    'brewery-details': BreweryDetails,
+    'country-details': CountryDetails,
   },
   methods: {
     closeOverlay: function() {

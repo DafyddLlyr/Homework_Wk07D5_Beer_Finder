@@ -16,12 +16,12 @@
       </tr>
       <tr>
         <th>Brewery: </th>
-        <td class="brewery-link" v-on:click="brewerySelect">{{ beer.fields.name_breweries.trim() }}</td>
+        <td class="details-link" v-on:click="brewerySelect">{{ beer.fields.name_breweries.trim() }}</td>
       </tr>
       <tr>
         <th>Location: </th>
         <td>
-          <span v-if="beer.fields.state != undefined">{{ beer.fields.state }},  </span>{{ beer.fields.country }}</td>
+          <span v-if="beer.fields.state != undefined">{{ beer.fields.state }},  </span><span class="details-link" v-on:click="countrySelect">{{ beer.fields.country }}</span></td>
       </tr>
     </table>
     <h4 v-if="beer.fields.hasOwnProperty('descript')" class="description-header"><b>Description</b></h4>
@@ -38,6 +38,9 @@ export default {
   methods: {
     brewerySelect: function() {
       eventBus.$emit('selected-brewery', this.beer)
+    },
+    countrySelect: function() {
+      eventBus.$emit('selected-country', this.beer)
     }
   }
 }
@@ -47,7 +50,7 @@ export default {
 
 .beer-details .leaflet-popup-content-wrapper {
   width: auto;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 th {
@@ -67,12 +70,12 @@ table {
   color: #F06543;
 }
 
-.brewery-link {
+.details-link {
   cursor: pointer;
   text-decoration: underline;
 }
 
-.brewery-link:hover {
+.details-link:hover {
   color: #F06543;
 }
 

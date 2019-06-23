@@ -1,14 +1,10 @@
 <template lang="html">
-  <div class="brewery-details">
-    <h3>{{ beer.name_breweries }}</h3>
-    <h4><span v-if='beer.state'>{{ beer.state }}, </span> {{ beer.country }} </h4>
-    <a :href="beer.website" class="website" v-if="beer.website">{{ beer.website }}</a>
-    <br>
-    <br>
+  <div class="country-details">
+    <h3 class="country-header">{{ beer.country }}</h3>
     <p>Our database has <b>{{ this.beerCount }}</b>
       beer<span v-if="this.beerCount > 1">s</span>
-      from {{ beer.name_breweries }}, across <b>{{ this.beerStylesCount }}</b>
-      style<span v-if="this.beerStylesCount > 1">s</span>.
+      from {{ beer.country }}, across <b>{{ this.beerStylesCount }}</b>
+      style<span v-if="this.beerStylesCount > 1">s</span>. {{ beer.country }} has <b>{{ this.countryBreweryCount }}</b> unique breweries on record.
     </p>
     <br>
     <h5>Style Breakdown</h5>
@@ -23,11 +19,10 @@
 
 <script>
 export default {
-  name: 'brewery-details',
-  props: ['beer'],
+  name: 'country-details',
   data() {
     return {
-      breweryBeers: [],
+      countryBeers: '',
       styleChartOptions: {
         chartArea: {
           width: '90%',
@@ -35,6 +30,7 @@ export default {
         },
         fontName: 'Avenir',
         pieHole: 0.3,
+        sliceVisibilityThreshold: 0.02,
         legend: {
           alignment: 'center',
           textStyle: {
@@ -44,23 +40,31 @@ export default {
       }
     }
   },
+  props: ['beer'],
   computed: {
-    cleanName: function() {
-      return this.beer.name_breweries.split(" ").join("+");
-    },
     beerCount: function() {
-      return this.breweryBeers.length;
+      return this.countryBeers.length;
+    },
+    cleanName: function() {
+      return this.beer.country.split(" ").join("+");
     },
     beerStyles: function() {
-      let uniqueStyles = [...new Set(this.breweryBeers.map(beer => beer.style_name))]
+      let uniqueStyles = [...new Set(this.countryBeers.map(beer => beer.style_name))]
       return uniqueStyles.filter(style => style !== undefined);
     },
     beerStylesCount: function() {
       return this.beerStyles.length;
     },
+    countryBreweries: function() {
+      let uniqueBreweries = [...new Set(this.countryBeers.map(beer => beer.name_breweries))]
+      return uniqueBreweries.filter(brewery => brewery !== undefined);
+    },
+    countryBreweryCount: function() {
+      return this.countryBreweries.length;
+    },
     beerStyleFrequency: function() {
       let emptyStyleArray = this.beerStyles.map(style => [style, 0] )
-      let result = emptyStyleArray.map(style => { this.breweryBeers
+      let result = emptyStyleArray.map(style => { this.countryBeers
         .forEach(beer => { if (beer.style_name === style[0]) {
           style[1] +=1
         }})
@@ -68,27 +72,19 @@ export default {
       })
       result.unshift(['Style', 'Count'])
       return result;
-    },
-    beerCateogries: function() {
-      let uniqueCategories = [...new Set(this.breweryBeers.map(beer => beer.cat_name))]
-      return uniqueCategories.filter(category => category !== undefined);
-    },
-    beerABVs: function() {
-      let allABVs = this.breweryBeers.map(beer => beer.abv);
-      return allABVs.filter(abv => abv !== 0)
     }
   },
   mounted() {
-    fetch(`https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=56&refine.name_breweries=${this.cleanName}`)
+    fetch(`https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=5000&facet=style_name&facet=cat_name&facet=name_breweries&facet=country&refine.country=${this.cleanName}`)
     .then(response => response.json())
-    .then(result => this.breweryBeers = result.records.map(beer => beer.fields))
+    .then(result => this.countryBeers = result.records.map(beer => beer.fields))
   }
 }
 </script>
 
 <style lang="css" scoped>
 
-.brewery-details {
+.country-details {
   width: 90%;
   height: 100%;
   margin-top: -3vw;
@@ -98,7 +94,6 @@ h3 {
   cursor: default;
   text-align: center;
   margin: 1vw;
-  margin-bottom: 0;
   font-size: 2rem;
   font-family: 'Lobster', cursive;
   color: #F06543;

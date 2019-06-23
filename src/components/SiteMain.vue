@@ -2,8 +2,9 @@
   <div id="main-page">
     <beer-map :filteredBeers="filteredBeers"/>
     <map-overlay
-      v-if="selectedBrewery"
+      v-if="selectedBrewery || selectedCountry"
       :selectedBeer="selectedBeer"
+      :selectedCountry="selectedCountry"
       :selectedBrewery="selectedBrewery"/>
     </div>
   </div>
@@ -22,7 +23,8 @@ export default {
   data() {
     return {
       selectedBrewery: null,
-      selectedBeer: null
+      selectedBeer: null,
+      selectedCountry: null
     }
   },
   components: {
@@ -36,7 +38,14 @@ export default {
       this.selectedBrewery = beer.fields.name_breweries;
       this.selectedBeer = beer;
     })
-    eventBus.$on('overlay-close', () => this.selectedBrewery = null)
+    eventBus.$on('selected-country', beer => {
+      this.selectedCountry = beer.fields.country;
+      this.selectedBeer = beer;
+    })
+    eventBus.$on('overlay-close', () => {
+      this.selectedBrewery = null
+      this.selectedCountry = null
+    })
   }
 }
 </script>

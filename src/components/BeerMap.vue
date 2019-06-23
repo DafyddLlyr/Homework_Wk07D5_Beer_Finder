@@ -57,14 +57,12 @@ export default {
   },
   mounted() {
     eventBus.$on('random-beer', beer => {
-
-      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 8)
+      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 10)
 
       // let beerID = parseInt(beer.fields.id)
       // console.log("beerID: ", beerID);
       // console.log("working beerMap ref: ", this.$refs.beerMap.mapObject);
       // console.log("broken popup ref: ", this.$refs[beerID][0].mapObject);
-
 
       // this.$refs[beerID].openPopup()
       // this.$refs[beerID][0].mapObject.openPopup()
