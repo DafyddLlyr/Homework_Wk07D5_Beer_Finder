@@ -4,7 +4,7 @@
     <table>
       <tr>
         <th>Style: </th>
-        <td>{{ beer.fields.style_name }}</td>
+        <td class="details-link" v-on:click="styleSelect">{{ beer.fields.style_name }}</td>
       </tr>
       <tr>
         <th>Category: </th>
@@ -21,7 +21,8 @@
       <tr>
         <th>Location: </th>
         <td>
-          <span v-if="beer.fields.state != undefined">{{ beer.fields.state }},  </span><span class="details-link" v-on:click="countrySelect">{{ beer.fields.country }}</span></td>
+          <span v-if="beer.fields.state != undefined">{{ beer.fields.state }},  </span><span class="details-link" v-on:click="countrySelect">{{ beer.fields.country }}</span>
+        </td>
       </tr>
     </table>
     <h4 v-if="beer.fields.hasOwnProperty('descript')" class="description-header"><b>Description</b></h4>
@@ -41,6 +42,9 @@ export default {
     },
     countrySelect: function() {
       eventBus.$emit('selected-country', this.beer)
+    },
+    styleSelect: function() {
+      eventBus.$emit('selected-style', this.beer)
     }
   }
 }
