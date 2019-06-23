@@ -16,7 +16,7 @@
       </tr>
       <tr>
         <th>Brewery: </th>
-        <td v-on:click="brewerySelect">{{ beer.fields.name_breweries.trim() }}</td>
+        <td class="brewery-link" v-on:click="brewerySelect">{{ beer.fields.name_breweries.trim() }}</td>
       </tr>
       <tr>
         <th>Location: </th>
@@ -24,6 +24,8 @@
           <span v-if="beer.fields.state != undefined">{{ beer.fields.state }},  </span>{{ beer.fields.country }}</td>
       </tr>
     </table>
+    <h4 v-if="beer.fields.hasOwnProperty('descript')" class="description-header"><b>Description</b></h4>
+    <p v-if="beer.fields.hasOwnProperty('descript')" class="beer-description">{{ beer.fields.descript }}</p>
   </div>
 </template>
 
@@ -45,6 +47,7 @@ export default {
 
 .beer-details .leaflet-popup-content-wrapper {
   width: auto;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 th {
@@ -53,7 +56,6 @@ th {
 
 table {
   cursor: default;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
 .beer-header {
@@ -63,6 +65,23 @@ table {
   font-size: 1.7rem;
   font-family: 'Lobster', cursive;
   color: #F06543;
+}
+
+.brewery-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.brewery-link:hover {
+  color: #F06543;
+}
+
+.beer-description {
+  margin-top: 0;
+}
+
+.description-header {
+  margin-top: 2vw;
 }
 
 </style>

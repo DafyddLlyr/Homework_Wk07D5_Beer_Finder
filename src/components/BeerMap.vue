@@ -2,13 +2,14 @@
   <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" ref="beerMap" :maxZoom="10" :minZoom="2">
     <l-tile-layer :url="url"></l-tile-layer>
     <l-feature-group
-    layerType="overlay"
-    name="BeerMarkers">
+      layerType="overlay"
+      name="BeerMarkers">
     <l-marker
-    v-for="(beer, index) in filteredBeers"
-    :key="index"
-    :lat-lng="[beer.fields.coordinates[0], beer.fields.coordinates[1]]">
-    <l-popup>
+      v-for="(beer, index) in filteredBeers"
+      :key="index"
+
+      :lat-lng="[beer.fields.coordinates[0], beer.fields.coordinates[1]]">
+    <l-popup :ref="beer.fields.id">
       <beer-details :beer="beer"/>
     </l-popup>
   </l-marker>
@@ -18,6 +19,7 @@
 
 <script>
 import { keys } from '../../private/apikeys.js'
+import { eventBus } from '../main.js'
 import BeerDetails from './BeerDetails.vue'
 
 export default {
@@ -25,6 +27,7 @@ export default {
   props: ['filteredBeers'],
   data () {
     return {
+      selectedBeer: null,
       beerMap: null,
       markers: null,
       url: `https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=${keys['leaflet']}`,
@@ -51,6 +54,26 @@ export default {
     filteredBeers: function() {
       this.$refs.beerMap.mapObject.flyToBounds(this.filteredBeersBounds);
     }
-  }
+  },
+  mounted() {
+    eventBus.$on('random-beer', beer => {
+
+      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 8)
+
+      // let beerID = parseInt(beer.fields.id)
+      // console.log("beerID: ", beerID);
+      // console.log("working beerMap ref: ", this.$refs.beerMap.mapObject);
+      // console.log("broken popup ref: ", this.$refs[beerID][0].mapObject);
+
+
+      // this.$refs[beerID].openPopup()
+      // this.$refs[beerID][0].mapObject.openPopup()
+      // this.$refs[beerID].togglePopup()
+      // this.$refs[beerID].mapObject.openPopup(L.latLng(beer.fields.coordinates))
+      // this.$refs[beerID].openOn(this.$refs.beerMap.mapObject)
+      // this.$refs[beerID].openPopup();
+    }
+  )
+}
 }
 </script>

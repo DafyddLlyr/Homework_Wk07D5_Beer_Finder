@@ -6,7 +6,8 @@
       :allCountries="findByField('country')"
       :allCategories="findByField('cat_name')"
       :allBreweries="findByField('name_breweries')"
-      :allStyles="findByField('style_name')" />
+      :allStyles="findByField('style_name')"
+      :filteredBeers="filteredBeers" />
     <site-main :filteredBeers="filteredBeers"/>
   </div>
 </template>

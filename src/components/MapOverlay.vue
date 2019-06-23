@@ -43,10 +43,10 @@ export default {
 .details-popup {
   background-color: white;
   width: 60%;
-  height: 80%;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .fa-times {

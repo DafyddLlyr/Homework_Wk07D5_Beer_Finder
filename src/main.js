@@ -4,6 +4,9 @@ import App from './App.vue'
 import { LMap, LTileLayer, LMarker, LPopup, LFeatureGroup } from 'vue2-leaflet';
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import VueGoogleCharts from 'vue-google-charts'
+
+Vue.use(VueGoogleCharts)
 
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
