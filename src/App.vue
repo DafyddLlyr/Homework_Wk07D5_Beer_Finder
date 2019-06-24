@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     fetchBeerDetails: function() {
-      fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=500&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
+      fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=100&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
       .then(response => response.json())
       .then(response => this.allBeers = response.records
         .filter(beer => beer.fields.hasOwnProperty('coordinates')

@@ -7,9 +7,9 @@
     <l-marker
       v-for="(beer, index) in filteredBeers"
       :key="index"
-
+      :ref="beer.fields.id"
       :lat-lng="[beer.fields.coordinates[0], beer.fields.coordinates[1]]">
-    <l-popup :ref="beer.fields.id">
+    <l-popup >
       <beer-details :beer="beer"/>
     </l-popup>
   </l-marker>
@@ -57,19 +57,11 @@ export default {
   },
   mounted() {
     eventBus.$on('random-beer', beer => {
-      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 10)
+      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 10);
+      this.selectedBeer = beer;
 
-      // let beerID = parseInt(beer.fields.id)
-      // console.log("beerID: ", beerID);
-      // console.log("working beerMap ref: ", this.$refs.beerMap.mapObject);
-      // console.log("broken popup ref: ", this.$refs[beerID][0].mapObject);
-
-      // this.$refs[beerID].openPopup()
-      // this.$refs[beerID][0].mapObject.openPopup()
-      // this.$refs[beerID].togglePopup()
-      // this.$refs[beerID].mapObject.openPopup(L.latLng(beer.fields.coordinates))
-      // this.$refs[beerID].openOn(this.$refs.beerMap.mapObject)
-      // this.$refs[beerID].openPopup();
+      let selectedBeerRef = this.selectedBeer.fields.id;
+      this.$refs[selectedBeerRef][0].mapObject.openPopup()
     }
   )
 }
