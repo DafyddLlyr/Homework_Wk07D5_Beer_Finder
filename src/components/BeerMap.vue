@@ -57,7 +57,8 @@ export default {
   },
   mounted() {
     eventBus.$on('random-beer', beer => {
-      this.$refs.beerMap.mapObject.flyTo(beer.fields.coordinates, 10);
+      const adjustedCoords = [beer.fields.coordinates[0] + 0.1, beer.fields.coordinates[1]]
+      this.$refs.beerMap.mapObject.flyTo(adjustedCoords, 10);
       this.selectedBeer = beer;
 
       let selectedBeerRef = this.selectedBeer.fields.id;
