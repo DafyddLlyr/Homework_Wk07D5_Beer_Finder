@@ -42,6 +42,7 @@ export default {
     filteredBeersBounds: function() {
       return this.filteredBeers.map(beer => beer.fields.coordinates)
     },
+    // TODO: Create custom icons
     // icon: function() {
     //   return L.icon({
     //     iconUrl: url,
@@ -57,8 +58,12 @@ export default {
   },
   mounted() {
     eventBus.$on('random-beer', beer => {
-      const adjustedCoords = [beer.fields.coordinates[0] + 0.1, beer.fields.coordinates[1]]
-      this.$refs.beerMap.mapObject.flyTo(adjustedCoords, 10);
+      // TODO: Adjust these based on beer description length
+      let offset = 0.1
+      let zoom = 10
+
+      const adjustedCoords = [beer.fields.coordinates[0] + offset, beer.fields.coordinates[1]]
+      this.$refs.beerMap.mapObject.flyTo(adjustedCoords, zoom);
       this.selectedBeer = beer;
 
       let selectedBeerRef = this.selectedBeer.fields.id;

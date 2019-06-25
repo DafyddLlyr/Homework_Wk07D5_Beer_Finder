@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="country-details">
     <h3 class="country-header">{{ beer.country }}</h3>
+    <img :src="flagURL" class="flagImage"/>
     <p>Our database has <b>{{ this.beerCount }}</b>
       beer<span v-if="this.beerCount > 1">s</span>
       from {{ beer.country }}, across <b>{{ this.beerStylesCount }}</b>
@@ -9,10 +10,10 @@
     <br>
     <h5>Style Breakdown</h5>
     <GChart
-      class="chart"
-      type="PieChart"
-      :data="beerStyleFrequency"
-      :options="styleChartOptions"
+    class="chart"
+    type="PieChart"
+    :data="beerStyleFrequency"
+    :options="styleChartOptions"
     />
   </div>
 </template>
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       countryBeers: '',
+      flagURL: null,
       styleChartOptions: {
         chartArea: {
           width: '90%',
@@ -43,41 +45,56 @@ export default {
   props: ['beer'],
   computed: {
     beerCount: function() {
-      return this.countryBeers.length;
+      if (this.countryBeers) {
+        return this.countryBeers.length;
+      }
     },
     cleanName: function() {
       return this.beer.country.split(" ").join("+");
     },
     beerStyles: function() {
-      let uniqueStyles = [...new Set(this.countryBeers.map(beer => beer.style_name))]
-      return uniqueStyles.filter(style => style !== undefined);
+      if (this.countryBeers) {
+        let uniqueStyles = [...new Set(this.countryBeers.map(beer => beer.style_name))]
+        return uniqueStyles.filter(style => style !== undefined);
+      }
     },
     beerStylesCount: function() {
-      return this.beerStyles.length;
+      if (this.countryBeers) {
+        return this.beerStyles.length;
+      }
     },
     countryBreweries: function() {
-      let uniqueBreweries = [...new Set(this.countryBeers.map(beer => beer.name_breweries))]
-      return uniqueBreweries.filter(brewery => brewery !== undefined);
+      if (this.countryBeers) {
+        let uniqueBreweries = [...new Set(this.countryBeers.map(beer => beer.name_breweries))]
+        return uniqueBreweries.filter(brewery => brewery !== undefined);
+      }
     },
     countryBreweryCount: function() {
-      return this.countryBreweries.length;
+      if (this.countryBeers) {
+        return this.countryBreweries.length;
+      }
     },
     beerStyleFrequency: function() {
-      let emptyStyleArray = this.beerStyles.map(style => [style, 0] )
-      let result = emptyStyleArray.map(style => { this.countryBeers
-        .forEach(beer => { if (beer.style_name === style[0]) {
-          style[1] +=1
-        }})
-        return [style[0], style[1]]
-      })
-      result.unshift(['Style', 'Count'])
-      return result;
+      if (this.countryBeers) {
+        let emptyStyleArray = this.beerStyles.map(style => [style, 0] )
+        let result = emptyStyleArray.map(style => { this.countryBeers
+          .forEach(beer => { if (beer.style_name === style[0]) {
+            style[1] +=1
+          }})
+          return [style[0], style[1]]
+        })
+        result.unshift(['Style', 'Count'])
+        return result;
+      }
     }
   },
   mounted() {
     fetch(`https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=5000&facet=style_name&facet=cat_name&facet=name_breweries&facet=country&refine.country=${this.cleanName}`)
     .then(response => response.json())
     .then(result => this.countryBeers = result.records.map(beer => beer.fields))
+    fetch(`https://restcountries.eu/rest/v2/name/${this.beer.country}`)
+    .then(response => response.json())
+    .then(result => this.flagURL = result[0].flag)
   }
 }
 </script>
@@ -105,6 +122,10 @@ h5 {
 
 .chart {
   margin-bottom: 2vw;
+}
+
+.flagImage {
+  width: 20vw;
 }
 
 </style>
