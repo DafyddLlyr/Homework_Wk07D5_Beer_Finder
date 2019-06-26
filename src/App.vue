@@ -42,11 +42,11 @@ export default {
         })
         .filter(beer => {
           return (beer.fields.style_name === this.filterObject.style_name ||
-            this.filterObject.style_name === '')
-          })
+          this.filterObject.style_name === '')
+        })
         .filter(beer => {
           return (beer.fields.name_breweries === this.filterObject.name_breweries || this.filterObject.name_breweries === '')
-          })
+        })
       }
   },
   components: {
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     fetchBeerDetails: function() {
-      fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=100&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
+      fetch("https://public-us.opendatasoft.com/api/records/1.0/search/?dataset=open-beer-database&rows=500&facet=style_name&facet=cat_name&facet=name_breweries&facet=country")
       .then(response => response.json())
       .then(response => this.allBeers = response.records
         .filter(beer => beer.fields.hasOwnProperty('coordinates')
