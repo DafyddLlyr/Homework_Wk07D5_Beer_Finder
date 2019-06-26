@@ -6,7 +6,7 @@ Built in a weekend using [Vue](https://vuejs.org/), [Leaflet](https://leafletjs.
 
 Beers can be filtered on the map by style, category, country or brewery. A random beer can also be selected and the map will fly to that location. Further insight and analysis into these categories is given when a beer is clicked on.
 
-**Features I'd like to implement in future -**
+### Features I'd like to implement in future -
 * Search by beer description + name/country/category/style
 
 * Suggest beers to a user
