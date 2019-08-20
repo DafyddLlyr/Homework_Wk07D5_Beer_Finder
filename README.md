@@ -1,8 +1,7 @@
 # International Beer Tracker
+### [Live Demo](https://beertracker.surge.sh/)
 
 ### Track beers, breweries and worldwide beer trends in this JavaScript app.
-
-### [Live Demo](https://beertracker.surge.sh/)
 
 Built in a weekend using [Vue](https://vuejs.org/), [Leaflet](https://leafletjs.com/), [Google Charts](https://developers.google.com/chart/), [Open Beer Database API](https://public-us.opendatasoft.com/explore/dataset/open-beer-database/information/) and the [RESTCountries API](https://restcountries.eu/).
 
