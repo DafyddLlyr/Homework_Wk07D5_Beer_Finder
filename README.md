@@ -2,6 +2,8 @@
 
 ### Track beers, breweries and worldwide beer trends in this JavaScript app.
 
+### [Live Demo](https://beertracker.surge.sh/)
+
 Built in a weekend using [Vue](https://vuejs.org/), [Leaflet](https://leafletjs.com/), [Google Charts](https://developers.google.com/chart/), [Open Beer Database API](https://public-us.opendatasoft.com/explore/dataset/open-beer-database/information/) and the [RESTCountries API](https://restcountries.eu/).
 
 Beers can be filtered on the map by style, category, country or brewery. A random beer can also be selected and the map will fly to that location. Further insight and analysis into these categories is given when a beer is clicked on.
