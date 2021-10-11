@@ -1,5 +1,4 @@
 # International Beer Tracker
-### [Live Demo](https://beertracker.surge.sh/)
 
 ### Track beers, breweries and worldwide beer trends in this JavaScript app.
 
